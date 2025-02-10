@@ -43,7 +43,7 @@ azure-functions
 azurefunctions-extensions-bindings-blob
 ```
 
-Each blob_samples_* folder contains `function_app.py` which import the `azurefunctions-extensions-bindings-blob` module.
+Each blob_samples_* folder contains `function_app.py` which imports the `azurefunctions-extensions-bindings-blob` module.
 ```python
 import azure.functions as func
 import azurefunctions.extensions.bindings.blob as blob
