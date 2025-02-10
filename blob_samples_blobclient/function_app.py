@@ -21,7 +21,7 @@ DESCRIPTION:
 USAGE:
     Set the environment variables with your own values before running the
     sample:
-    1) AzureWebJobsStorage - the connection string to your storage account
+    1) StorageConnection - the connection string to your storage account
 
     Set PATH/TO/BLOB to the path to the blob you want to trigger or serve as
     input to the function.
@@ -29,7 +29,7 @@ USAGE:
 
 
 @app.blob_trigger(
-    arg_name="client", path="PATH/TO/BLOB", connection="AzureWebJobsStorage"
+    arg_name="client", path="PATH/TO/BLOB", connection="StorageConnection"
 )
 def blob_trigger(client: blob.BlobClient):
     logging.info(
@@ -41,7 +41,7 @@ def blob_trigger(client: blob.BlobClient):
 
 @app.route(route="file")
 @app.blob_input(
-    arg_name="client", path="PATH/TO/BLOB", connection="AzureWebJobsStorage"
+    arg_name="client", path="PATH/TO/BLOB", connection="StorageConnection"
 )
 def blob_input(req: func.HttpRequest, client: blob.BlobClient):
     logging.info(

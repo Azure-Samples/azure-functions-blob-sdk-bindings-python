@@ -5,6 +5,7 @@ csx
 .vscode
 edge
 Publish
+.idea
 
 *.user
 *.suo
@@ -21,7 +22,6 @@ project.lock.json
 /data
 .secrets
 appsettings.json
-local.settings.json
 
 node_modules
 dist
@@ -30,13 +30,13 @@ dist
 .python_packages/
 
 # Python Environments
-.env
-.venv
+.env*
+.venv*
 .vscode/
 .vscode
-env/
-venv/
-ENV/
+env*
+venv*
+ENV*
 env.bak/
 venv.bak/
 
