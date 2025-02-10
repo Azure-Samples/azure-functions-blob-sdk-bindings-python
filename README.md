@@ -87,8 +87,19 @@ the blob_samples_storagestreamdownloader directory shows the type defined as `St
                blob_trigger: blobTrigger
    ```
 8. **Execute the function**: 
-   - Blob trigger: upload the specified blob to the storage account.
+   - Blob trigger: upload the specified blob to the storage account. You should see the log below printed in the terminal,
+   where the blob properties and content head are populated for your specific blob.
+   ```
+      Python blob trigger function processed blob
+      Properties: {...}
+      Blob content head: ...
+   ```
    - Blob input: ensure the specified blob is uploaded and send a GET request to the function API endpoint.
+   ```
+      Python blob input function processed blob
+      Properties: {...}
+      Blob content head: ...
+   ```
 
 ### Deploying to Azure
 
