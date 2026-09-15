@@ -47,8 +47,6 @@ azurefunctions-extensions-bindings-blob
 
 Each blob_samples_* folder contains `function_app.py` which imports the `azurefunctions-extensions-bindings-blob` module.
 ```python
-import os
-
 import azure.functions as func
 import azurefunctions.extensions.bindings.blob as blob
 ```
@@ -62,7 +60,7 @@ The blob_samples_blobclient directory shows the type defined as `BlobClient`.
     arg_name="client",
     path="PATH/TO/BLOB",
     connection="StorageConnection",
-    source=os.getenv("BLOB_TRIGGER_SOURCE", "LogsAndContainerScan"),
+    source=func.BlobSource.EVENT_GRID,
 )
 def blob_trigger(client: blob.BlobClient):
 ```
