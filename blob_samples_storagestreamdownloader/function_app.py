@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 import logging
+import os
 
 import azure.functions as func
 import azurefunctions.extensions.bindings.blob as blob
@@ -29,7 +30,10 @@ USAGE:
 
 
 @app.blob_trigger(
-    arg_name="stream", path="PATH/TO/BLOB", connection="StorageConnection"
+    arg_name="stream",
+    path="PATH/TO/BLOB",
+    connection="StorageConnection",
+    source=os.getenv("BLOB_TRIGGER_SOURCE", "LogsAndContainerScan"),
 )
 def blob_trigger(stream: blob.StorageStreamDownloader):
     for chunk in stream.chunks():

@@ -19,7 +19,7 @@ urlFragment: blob-sdk-type-bindings-with-azure-functions
 This sample demonstrates how to use the Azure Functions Blob SDK-type bindings in Python. The supported SDK types include BlobClient, ContainerClient,
 and StorageStreamDownloader.
 
-You can learn more about SDK-type bindings for blob in the [SDK-type Bindings for Python Reference](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference-python?tabs=get-started%2Casgi%2Capplication-level&pivots=python-mode-decorators#sdk-type-bindings-preview).
+You can learn more about SDK-type bindings for blob in the [SDK-type Bindings for Python Reference](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference-python?tabs=get-started%2Casgi%2Capplication-level&pivots=python-mode-decorators#sdk-type-bindings).
 
 ## Prerequisites
 
@@ -29,9 +29,11 @@ Before running the sample, you need the following:
    
 2. **Azure Functions Core Tools**: Install [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-python) to run and test functions locally.
 
-3. **Python 3.x**: Ensure [Python 3.9 or later](https://www.python.org/downloads/) is installed on your machine.
+3. **A Supported Version of Python**: Visit the [Supported Python versions page](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference-python?tabs=get-started%2Casgi%2Capplication-level&pivots=python-mode-decorators#supported-python-versions) to learn more. The Azure deployments use Python 3.14, which is currently a preview runtime in Azure Functions.
 
 4. **Azure Storage Account**: Create a [storage account via the Azure Portal](https://docs.microsoft.com/azure/storage/common/storage-account-overview) and get the connection string.
+
+5. **Azure Developer CLI and Azure CLI**: Install the [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) and the [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli). The post-deployment hook uses the Azure CLI to connect the blob trigger to Event Grid.
 
 ## Using SDK-type Bindings for Blob in an Azure Function App
 The code in the sample folder has already been updated to support use of SDK-type bindings for blob. Let's walk through the changed files.
@@ -45,6 +47,8 @@ azurefunctions-extensions-bindings-blob
 
 Each blob_samples_* folder contains `function_app.py` which imports the `azurefunctions-extensions-bindings-blob` module.
 ```python
+import os
+
 import azure.functions as func
 import azurefunctions.extensions.bindings.blob as blob
 ```
@@ -55,7 +59,10 @@ named `client` and define the type as an SDK-type.
 The blob_samples_blobclient directory shows the type defined as `BlobClient`.
 ```python
 @app.blob_trigger(
-    arg_name="client", path="PATH/TO/BLOB", connection="AzureWebJobsStorage"
+    arg_name="client",
+    path="PATH/TO/BLOB",
+    connection="StorageConnection",
+    source=os.getenv("BLOB_TRIGGER_SOURCE", "LogsAndContainerScan"),
 )
 def blob_trigger(client: blob.BlobClient):
 ```
@@ -107,11 +114,38 @@ There are three main ways to deploy this to Azure:
 
 * [Deploy with the VS Code Azure Functions extension](https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-python#publish-the-project-to-azure). 
 * [Deploy with the Azure CLI](https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-cli-python?tabs=azure-cli%2Cbash%2Cbrowser#create-supporting-azure-resources-for-your-function).
-* Deploy with the Azure Developer CLI: After [installing the `azd` tool](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd?tabs=localinstall%2Cwindows%2Cbrew), run `azd up` in the root of the project. You can also run `azd pipeline config` to set up a CI/CD pipeline for deployment.
+* Deploy with the Azure Developer CLI as described below.
 
-All approaches will provision a Function App, Storage account (to store the code), and a Log Analytics workspace.
+Each sample directory is an independent `azd` project. Before deploying, replace the placeholder blob path or container in its `function_app.py`. Then run `azd up` from that sample directory:
+
+```bash
+cd blob_samples_blobclient
+azd up
+```
+
+When prompted for a location, choose an Azure region that supports the Flex Consumption plan.
+
+Use the same workflow from `blob_samples_containerclient` or `blob_samples_storagestreamdownloader` to deploy either of those samples. Each project creates its own resource group containing:
+
+* A Linux Python 3.14 Function App on the Flex Consumption (`FC1`) plan.
+* A storage account used for host state, package deployment, and the sample bindings.
+* A user-assigned managed identity and storage/monitoring role assignments.
+* A Log Analytics workspace and Application Insights resource.
+* An Event Grid system topic and subscription for the Flex-compatible blob trigger.
+
+Storage shared-key access is disabled. Both `AzureWebJobsStorage` and `StorageConnection` use the Function App's managed identity. Local runs use the polling blob trigger; the deployed app sets `BLOB_TRIGGER_SOURCE=EventGrid`, which Flex Consumption requires.
+
+To deploy updates, run `azd up` again from the same sample directory. To delete that sample's Azure resources, run:
+
+```bash
+azd down
+```
+
+You can also run `azd pipeline config` from a sample directory to configure its CI/CD pipeline.
+
+The VS Code and Azure CLI deployment approaches require you to provision and configure their supporting Azure resources separately.
 
 ## Next Steps
-Visit the [SDK-type bindings in Python reference documentation](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference-python?tabs=get-started%2Casgi%2Capplication-level&pivots=python-mode-decorators#sdk-type-bindings-preview) to learn more about how to use SDK-type bindings in a Python Function App and the
+Visit the [SDK-type bindings in Python reference documentation](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference-python?tabs=get-started%2Casgi%2Capplication-level&pivots=python-mode-decorators#supported-python-versions) to learn more about how to use SDK-type bindings in a Python Function App and the
 [API reference documentation](https://aka.ms/azsdk-python-storage-blob-ref) to learn more about
 what you can do with the Azure Storage Blob client library.

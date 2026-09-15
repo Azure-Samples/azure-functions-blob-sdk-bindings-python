@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 import logging
+import os
 
 import azure.functions as func
 import azurefunctions.extensions.bindings.blob as blob
@@ -28,7 +29,12 @@ USAGE:
 """
 
 
-@app.blob_trigger(arg_name="client", path="CONTAINER", connection="StorageConnection")
+@app.blob_trigger(
+    arg_name="client",
+    path="CONTAINER",
+    connection="StorageConnection",
+    source=os.getenv("BLOB_TRIGGER_SOURCE", "LogsAndContainerScan"),
+)
 def blob_trigger(client: blob.ContainerClient):
     logging.info(
         f"Python blob trigger function processed blob \n"

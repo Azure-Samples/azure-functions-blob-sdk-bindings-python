@@ -49,3 +49,6 @@ __pycache__/
 __blobstorage__
 __queuestorage__
 __azurite_db*__.json
+
+# Azure Developer CLI environment state
+.azure/
