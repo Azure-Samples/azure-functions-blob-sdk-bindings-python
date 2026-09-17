@@ -12,14 +12,14 @@ page_type: sample
 urlFragment: blob-sdk-type-bindings-with-azure-functions
 
 ---
-<!-- YAML front-matter schema: https://review.learn.microsoft.com/en-us/help/contribute/samples/process/onboarding?branch=main#supported-metadata-fields-for-readmemd -->
+<!-- YAML front-matter schema: https://review.learn.microsoft.com/help/contribute/samples/process/onboarding?branch=main#supported-metadata-fields-for-readmemd -->
 
 # Blob SDK-Type Bindings with Azure Functions (Python)
 
 This sample demonstrates how to use the Azure Functions Blob SDK-type bindings in Python. The supported SDK types include BlobClient, ContainerClient,
 and StorageStreamDownloader.
 
-You can learn more about SDK-type bindings for blob in the [SDK-type Bindings for Python Reference](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference-python?tabs=get-started%2Casgi%2Capplication-level&pivots=python-mode-decorators#sdk-type-bindings).
+You can learn more about SDK-type bindings for blob in the [SDK-type Bindings for Python Reference](https://learn.microsoft.com/azure/azure-functions/functions-reference-python?tabs=get-started%2Casgi%2Capplication-level&pivots=python-mode-decorators#sdk-type-bindings).
 
 ## Prerequisites
 
@@ -27,9 +27,9 @@ Before running the sample, you need the following:
 
 1. **Azure Subscription**: An [Azure account](https://azure.com/free) is required.
    
-2. **Azure Functions Core Tools**: Install [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-python) to run and test functions locally.
+2. **Azure Functions Core Tools**: Install [Azure Functions Core Tools](https://learn.microsoft.com/azure/azure-functions/functions-run-local?tabs=windows%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-python) to run and test functions locally.
 
-3. **A Supported Version of Python**: Visit the [Supported Python versions page](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference-python?tabs=get-started%2Casgi%2Capplication-level&pivots=python-mode-decorators#supported-python-versions) to learn more. The Azure deployments use Python 3.14, which is currently a preview runtime in Azure Functions.
+3. **A Supported Version of Python**: Visit the [Supported Python versions page](https://learn.microsoft.com/azure/azure-functions/functions-reference-python?tabs=get-started%2Casgi%2Capplication-level&pivots=python-mode-decorators#supported-python-versions) to learn more. The Azure deployments use Python 3.14, which is currently a preview runtime in Azure Functions.
 
 4. **Azure Storage Account**: Create a [storage account via the Azure Portal](https://docs.microsoft.com/azure/storage/common/storage-account-overview) and get the connection string.
 
@@ -110,8 +110,8 @@ the blob_samples_storagestreamdownloader directory shows the type defined as `St
 
 There are three main ways to deploy this to Azure:
 
-* [Deploy with the VS Code Azure Functions extension](https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-python#publish-the-project-to-azure). 
-* [Deploy with the Azure CLI](https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-cli-python?tabs=azure-cli%2Cbash%2Cbrowser#create-supporting-azure-resources-for-your-function).
+* [Deploy with the VS Code Azure Functions extension](https://docs.microsoft.com/azure/azure-functions/create-first-function-vs-code-python#publish-the-project-to-azure).
+* [Deploy with the Azure CLI](https://docs.microsoft.com/azure/azure-functions/create-first-function-cli-python?tabs=azure-cli%2Cbash%2Cbrowser#create-supporting-azure-resources-for-your-function).
 * Deploy with the Azure Developer CLI as described below.
 
 Each sample directory is an independent `azd` project. Before deploying, replace the placeholder blob path or container in its `function_app.py`. Then run `azd up` from that sample directory:
@@ -144,6 +144,6 @@ You can also run `azd pipeline config` from a sample directory to configure its 
 The VS Code and Azure CLI deployment approaches require you to provision and configure their supporting Azure resources separately.
 
 ## Next Steps
-Visit the [SDK-type bindings in Python reference documentation](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference-python?tabs=get-started%2Casgi%2Capplication-level&pivots=python-mode-decorators#supported-python-versions) to learn more about how to use SDK-type bindings in a Python Function App and the
+Visit the [SDK-type bindings in Python reference documentation](https://learn.microsoft.com/azure/azure-functions/functions-reference-python?tabs=get-started%2Casgi%2Capplication-level&pivots=python-mode-decorators#supported-python-versions) to learn more about how to use SDK-type bindings in a Python Function App and the 
 [API reference documentation](https://aka.ms/azsdk-python-storage-blob-ref) to learn more about
 what you can do with the Azure Storage Blob client library.
