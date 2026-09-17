@@ -29,7 +29,10 @@ USAGE:
 
 
 @app.blob_trigger(
-    arg_name="client", path="PATH/TO/BLOB", connection="StorageConnection"
+    arg_name="client",
+    path="PATH/TO/BLOB",
+    connection="StorageConnection",
+    source=func.BlobSource.EVENT_GRID,
 )
 def blob_trigger(client: blob.BlobClient):
     logging.info(

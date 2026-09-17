@@ -28,7 +28,12 @@ USAGE:
 """
 
 
-@app.blob_trigger(arg_name="client", path="CONTAINER", connection="StorageConnection")
+@app.blob_trigger(
+    arg_name="client",
+    path="CONTAINER",
+    connection="StorageConnection",
+    source=func.BlobSource.EVENT_GRID,
+)
 def blob_trigger(client: blob.ContainerClient):
     logging.info(
         f"Python blob trigger function processed blob \n"
